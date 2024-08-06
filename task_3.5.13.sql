@@ -1,73 +1,40 @@
-    WITH first_correct_decision (step, student, min_sub_time) AS
-         (SELECT step_id, student_name, MIN(submission_time)
-            FROM student
-                 INNER JOIN step_student
-                 USING(student_id)
-            WHERE result = 'correct'
-         GROUP BY step_id, student_name
-         ),
-         first_wrong_decision (step, student, max_sub_time) AS
-         ( SELECT step_id, student_name, MAX(submission_time)
-             FROM student
-                  INNER JOIN step_student
-                  USING(student_id)
-            WHERE result = 'wrong'
-         GROUP BY step_id, student_name
-         ),
-         group1 (gr, step, student) AS
-         ( SELECT 'I' AS Группа, step_id, student_name
+    WITH student_and_step (step_id, student_name, submission_time, result) AS
+         ( SELECT step_id, student_name, submission_time, 
+                  IF(result = 'correct', 1, 0)
              FROM student
                   INNER JOIN step_student
                   ON student.student_id = step_student.student_id
-
-                  INNER JOIN first_correct_decision
-                  ON step_student.step_id = first_correct_decision.step
-                     AND student.student_name = first_correct_decision.student
-                  
-                  INNER JOIN first_wrong_decision 
-                  ON step_student.step_id = first_wrong_decision.step
-                     AND student.student_name = first_wrong_decision.student
-            WHERE min_sub_time < max_sub_time 
-         GROUP BY step_id, student_name
+         ),
+         student_and_step1 (step_id, student_name, submission_time, result, feature) AS
+         ( SELECT step_id, student_name, submission_time, result,
+                  result - LAG(result, 1, result) 
+                           OVER (PARTITION BY step_id, student_name ORDER BY submission_time)
+             FROM student_and_step
+         ),
+         group1 (gr, student, step_count) AS
+         ( SELECT 'I' AS Группа, student_name, COUNT(step_id)
+             FROM student_and_step1
+            WHERE feature = -1
+         GROUP BY student_name
          ),
          group2 (gr, step, student) AS
          ( SELECT 'II' AS Группа, step_id, student_name
-             FROM student
-                  INNER JOIN step_student
-                  USING(student_id)
-            WHERE result = 'correct'
+             FROM student_and_step
+            WHERE result = 1
          GROUP BY step_id, student_name
            HAVING COUNT(result) > 1
          ),
-         all_attempts_in_step (step, student, countstep) AS
-         (SELECT step_id, student_name, COUNT(result)
-            FROM student
-                 INNER JOIN step_student
-                 USING(student_id)
-         GROUP BY step_id, student_name
-         ),
-         wrong_attempts_in_step (step, student, countwrongstep) AS
-         ( SELECT step_id, student_name, COUNT(result)
-             FROM student
-                  INNER JOIN step_student
-                  USING(student_id)
-            WHERE result = 'wrong'
-         GROUP BY step_id, student_name
-         ),
          group3 (gr, step, student) AS
-         (SELECT 'III' AS Группа, all_attempts_in_step.step, all_attempts_in_step.student
-            FROM all_attempts_in_step
-                 LEFT JOIN wrong_attempts_in_step 
-                 ON all_attempts_in_step.step = wrong_attempts_in_step.step
-                    AND all_attempts_in_step.student = wrong_attempts_in_step.student
-           WHERE countwrongstep = countstep
+         ( SELECT 'III' AS Группа, step_id, student_name
+             FROM student_and_step
+         GROUP BY step_id, student_name
+           HAVING SUM(result) = 0
          )
-    
+         
   SELECT gr AS Группа,
          student AS Студент,
-         COUNT(step) AS Количество_шагов 
+         step_count AS Количество_шагов 
     FROM group1
-GROUP BY student 
    
    UNION 
   
