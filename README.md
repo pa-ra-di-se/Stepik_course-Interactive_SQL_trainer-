@@ -10,4 +10,8 @@
 - For module 3 lesson 5 step 12
 
 ![logical database diagram for module 3 lesson 5 step 12](/images/fragment-of-the-logical-database-diagram-for-3.5.12.jpg "module 3 lesson 5 step 12")
+
+- For module 3 lesson 5 step 13
+
+![logical database diagram for module 3 lesson 5 step 13](/images/fragment-of-the-logical-database-diagram-for-3.5.13.jpg "module 3 lesson 5 step 13")
 ---
