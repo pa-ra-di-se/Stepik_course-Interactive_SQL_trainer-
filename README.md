@@ -7,7 +7,7 @@
 ---
 #### Fragment of the logical database diagram for tasks
 ---
-For Module 3 lesson 5 step 12
+- For module 3 lesson 5 step 12
 
-![logical database diagram for Module 3 lesson 5 step 12](/images/fragment-of-the-logical-database-diagram-for-3.5.12.jpg "Module 3 lesson 5 step 12")
+![logical database diagram for module 3 lesson 5 step 12](/images/fragment-of-the-logical-database-diagram-for-3.5.12.jpg "module 3 lesson 5 step 12")
 ---

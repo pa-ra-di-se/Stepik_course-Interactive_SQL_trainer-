@@ -5,11 +5,12 @@
     информация о шаге: номер модуля, символ '.', позиция урока в модуле, символ '.', позиция шага в модуле;
     порядковый номер попытки для каждого шага - определяется по возрастанию времени отправки попытки;
     результат попытки;
-    время попытки (преобразованное к формату времени) - определяется как разность между временем отправки попытки и времени ее начала, 
-    в случае если попытка длилась более 1 часа, 
+    время попытки (преобразованное к формату времени) - определяется как разность между временем отправки попытки 
+    и времени ее начала, в случае если попытка длилась более 1 часа, 
     то время попытки заменить на среднее время всех попыток пользователя по всем шагам без учета тех, 
     которые длились больше 1 часа;
-    относительное время попытки  - определяется как отношение времени попытки (с учетом замены времени попытки) к суммарному времени всех попыток шага, 
+    относительное время попытки  - определяется как отношение времени попытки (с учетом замены времени попытки) 
+    к суммарному времени всех попыток шага, 
     округленное до двух знаков после запятой.
 
 Столбцы назвать  Студент,  Шаг, Номер_попытки, Результат, Время_попытки и Относительное_время. 
@@ -23,11 +24,12 @@ For a student named student_59, display the following information for all his at
  step information: module number, '.' symbol, lesson position in the module, '.' symbol, step position in the module;
  the serial number of the attempt for each step is determined by increasing time of sending the attempt;
  the result of the attempt;
- attempt time (converted to time format) - defined as the difference between the time the attempt was sent and the time it started,
- if the attempt lasted more than 1 hour,
+ attempt time (converted to time format) - defined as the difference between the time the attempt was sent 
+ and the time it started, if the attempt lasted more than 1 hour,
  then the attempt time is replaced by the average time of all user attempts at all steps, excluding those
  which lasted more than 1 hour;
- relative attempt time - defined as the ratio of the attempt time (taking into account the replacement of the attempt time) to the total time of all attempts of the step,
+ relative attempt time - defined as the ratio of the attempt time (taking into account the replacement of the attempt time) 
+ to the total time of all attempts of the step,
  rounded to two decimal places.
 
 The columns are named Student, Step, Attempt_Number, Result, Attempt_Time and Relative_Time.
